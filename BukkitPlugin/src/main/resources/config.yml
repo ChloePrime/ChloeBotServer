@@ -1,0 +1,8 @@
+Port: 8683
+AuthorizedUsers:
+  - 10086
+AuthorizedGroups:
+  - 10086
+ForceLocalHost: true
+# 单位 ms
+CommandResponseWaitTime: 1000

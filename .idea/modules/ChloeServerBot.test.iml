@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module external.linked.project.id="ChloeServerBot:test" external.linked.project.path="$MODULE_DIR$/../../MiraiPlugin" external.root.project.path="$MODULE_DIR$/../../MiraiPlugin" external.system.id="GRADLE" external.system.module.group="chloeprime.botserver" external.system.module.type="sourceSet" external.system.module.version="0.0.2" type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="kotlin-language" name="Kotlin">
+      <configuration version="4" platform="JVM 1.8" allPlatforms="JVM [1.8]" useProjectSettings="false">
+        <compilerSettings>
+          <option name="additionalArguments" value="-Xallow-no-source-files -Xjvm-default=all" />
+        </compilerSettings>
+        <compilerArguments>
+          <option name="destination" value="$MODULE_DIR$/../../MiraiPlugin/build/classes/kotlin/test" />
+          <option name="classpath" value="$MODULE_DIR$/../../MiraiPlugin/build/classes/kotlin/main;D:/Minecraft/mods/ChloeBotServer/MiraiPlugin/build/resources/main;E:/Minecraft/gradle/caches/modules-2/files-2.1/net.mamoe/mirai-core-jvm/2.7.0/d7c9c3df7547f415080218263c6b4b993950768e/mirai-core-jvm-2.7.0.jar;E:/Minecraft/gradle/caches/modules-2/files-2.1/net.mamoe/mirai-core-api-jvm/2.7.0/203ac341376c41c0f9b33296a374b66ccefae1f1/mirai-core-api-jvm-2.7.0.jar;E:/Minecraft/gradle/caches/modules-2/files-2.1/net.mamoe/mirai-console/2.7.0/f3c6b1e75b8b32e1cc57db74a9c8871cc4c97e03/mirai-console-2.7.0.jar;E:/Minecraft/gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-coroutines-jdk8/1.5.0/ec8255f97a375b6014cad1169c057f98f0ebcf28/kotlinx-coroutines-jdk8-1.5.0.jar;E:/Minecraft/gradle/caches/modules-2/files-2.1/io.ktor/ktor-client-okhttp/1.5.4/5973fa12c57ec1bcc1f6c701bed813fc294ef015/ktor-client-okhttp-jvm-1.5.4.jar;E:/Minecraft/gradle/caches/modules-2/files-2.1/io.ktor/ktor-client-core-jvm/1.5.4/81e8f8bb9622b96661c739ca18146e4079191c20/ktor-client-core-jvm-1.5.4.jar;E:/Minecraft/gradle/caches/modules-2/files-2.1/io.ktor/ktor-http-cio-jvm/1.5.4/cb76b1820b3227e26aba28a3d1167fb8a025d25f/ktor-http-cio-jvm-1.5.4.jar;E:/Minecraft/gradle/caches/modules-2/files-2.1/io.ktor/ktor-network-jvm/1.5.4/8c693676341948ba5fb301816cab74a190b899da/ktor-network-jvm-1.5.4.jar;E:/Minecraft/gradle/caches/modules-2/files-2.1/io.ktor/ktor-http-jvm/1.5.4/5bf9e9e5abab9a1d4beef54651ac0751faf7cb72/ktor-http-jvm-1.5.4.jar;E:/Minecraft/gradle/caches/modules-2/files-2.1/io.ktor/ktor-utils-jvm/1.5.4/951dd75ff2ef7932e479696412050d6813126c61/ktor-utils-jvm-1.5.4.jar;E:/Minecraft/gradle/caches/modules-2/files-2.1/io.ktor/ktor-io-jvm/1.5.4/850b5db4aae1a99539fa8eafb8c2072f733b9fb6/ktor-io-jvm-1.5.4.jar;E:/Minecraft/gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-coroutines-core-jvm/1.5.0/d8cebccdcddd029022aa8646a5a953ff88b13ac8/kotlinx-coroutines-core-jvm-1.5.0.jar;E:/Minecraft/gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-jdk8/1.5.10/3f4af7aff21c4ec46e3cdd645639d0a63a68d3d0/kotlin-stdlib-jdk8-1.5.10.jar;E:/Minecraft/gradle/caches/modules-2/files-2.1/net.mamoe/mirai-console-terminal/2.7.0/ce55a69b8edce0ee1a3ca3895ab7ccd47362b03a/mirai-console-terminal-2.7.0.jar;E:/Minecraft/gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-jdk7/1.5.10/c49d0703d16c6cb1526cc07b9b46486da1dd8a60/kotlin-stdlib-jdk7-1.5.10.jar;E:/Minecraft/gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-reflect/1.5.10/d6c70f3c0df2457ea0095c61c1fc1188017dc3bc/kotlin-reflect-1.5.10.jar;E:/Minecraft/gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-serialization-json-jvm/1.2.1/331ae06aefd6c6827c6f10589072ee1845a950c/kotlinx-serialization-json-jvm-1.2.1.jar;E:/Minecraft/gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-serialization-core-jvm/1.2.1/e472959f7e506bc534549002adee5a4f12a8fae3/kotlinx-serialization-core-jvm-1.2.1.jar;E:/Minecraft/gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/4.6.0/1885ec944e0a74e78359756e88ce656fd5a596d5/okhttp-4.6.0.jar;E:/Minecraft/gradle/caches/modules-2/files-2.1/com.squareup.okio/okio/2.6.0/f06923d428f3c8e6f571043ec29a45d0cd9d2bf/okio-jvm-2.6.0.jar;E:/Minecraft/gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.5.10/da6a904b132f0402fa4d79169a3c1770598d4702/kotlin-stdlib-1.5.10.jar;E:/Minecraft/gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/13.0/919f0dfe192fb4e063e7dacadee7f8bb9a2672a9/annotations-13.0.jar;E:/Minecraft/gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-coroutines-io-jvm/0.1.16/b2bcf3815337e34b598b9e9a579fe5ec0f8a3ab4/kotlinx-coroutines-io-jvm-0.1.16.jar;E:/Minecraft/gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-io-jvm/0.1.16/121c7a446719b21f8f1275134d6073aa22b23121/kotlinx-io-jvm-0.1.16.jar;E:/Minecraft/gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-coroutines-io/0.1.16/a148ebbf458bb8c787ded007a62a6f53324358e1/kotlinx-coroutines-io-0.1.16.jar;E:/Minecraft/gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-io/0.1.16/c2bb49e5fa65eed71e1ea0dc12e78619296a01fd/kotlinx-io-0.1.16.jar;E:/Minecraft/gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-common/1.5.10/6b84d926e28493be69daf673e40076f89492ef7/kotlin-stdlib-common-1.5.10.jar;E:/Minecraft/gradle/caches/modules-2/files-2.1/org.slf4j/slf4j-api/1.7.30/b5a4b6d16ab13e34a88fae84c35cd5d68cac922c/slf4j-api-1.7.30.jar;E:/Minecraft/gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/atomicfu-common/0.14.1/323b5e62491623e6670ebe593af2ebfbf46cb210/atomicfu-common-0.14.1.jar;E:/Minecraft/gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/atomicfu-jvm/0.16.1/6d90ae69adab6981d4d9b5bd8489cdc56457049d/atomicfu-jvm-0.16.1.jar" />
+          <option name="noStdlib" value="true" />
+          <option name="noReflect" value="true" />
+          <option name="moduleName" value="ChloeServerBot" />
+          <option name="friendPaths">
+            <array>
+              <option value="$MODULE_DIR$/../../MiraiPlugin/build/classes/java/main" />
+              <option value="$MODULE_DIR$/../../MiraiPlugin/build/classes/kotlin/main" />
+              <option value="$MODULE_DIR$/../../MiraiPlugin/build/libs/ChloeServerBot-0.0.2.jar" />
+            </array>
+          </option>
+          <option name="languageVersion" value="1.5" />
+          <option name="apiVersion" value="1.5" />
+          <option name="pluginOptions">
+            <array />
+          </option>
+          <option name="pluginClasspaths">
+            <array>
+              <option value="E:/Minecraft/gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin-api/1.5.10/df0def48986ef2af0274abbe2171ee8d402b1670/kotlin-gradle-plugin-api-1.5.10.jar" />
+              <option value="E:/Minecraft/gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-script-runtime/1.5.10/69bad0ece91b0797055aeadbd44dc742c458398b/kotlin-script-runtime-1.5.10.jar" />
+              <option value="E:/Minecraft/gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-scripting-common/1.5.10/26ef979ccbbcf86a5715a379aebb705cb58e4b97/kotlin-scripting-common-1.5.10.jar" />
+              <option value="E:/Minecraft/gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-scripting-jvm/1.5.10/174645854951dbecf6eac5806c01cc8ef888efdd/kotlin-scripting-jvm-1.5.10.jar" />
+              <option value="E:/Minecraft/gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-common/1.5.10/6b84d926e28493be69daf673e40076f89492ef7/kotlin-stdlib-common-1.5.10.jar" />
+              <option value="E:/Minecraft/gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.5.10/da6a904b132f0402fa4d79169a3c1770598d4702/kotlin-stdlib-1.5.10.jar" />
+              <option value="E:/Minecraft/gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-coroutines-core/1.3.8/f62be6d4cbf27781c2969867b4ed952f38378492/kotlinx-coroutines-core-1.3.8.jar" />
+              <option value="E:/Minecraft/gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/13.0/919f0dfe192fb4e063e7dacadee7f8bb9a2672a9/annotations-13.0.jar" />
+              <option value="$KOTLIN_BUNDLED$/lib/kotlinx-serialization-compiler-plugin.jar" />
+            </array>
+          </option>
+          <option name="errors">
+            <ArgumentParseErrors />
+          </option>
+        </compilerArguments>
+      </configuration>
+    </facet>
+  </component>
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
+    <output-test url="file://$MODULE_DIR$/../../MiraiPlugin/build/classes/java/test" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/../../MiraiPlugin/src/test">
+      <sourceFolder url="file://$MODULE_DIR$/../../MiraiPlugin/src/test/kotlin" isTestSource="true" />
+    </content>
+    <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="ChloeServerBot.main" />
+    <orderEntry type="library" name="Gradle: net.mamoe:mirai-console:2.7.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.10" level="project" />
+    <orderEntry type="library" name="Gradle: net.mamoe:mirai-console-terminal:2.7.0" level="project" />
+    <orderEntry type="library" name="Gradle: net.mamoe:mirai-core-jvm:2.7.0" level="project" />
+    <orderEntry type="library" name="Gradle: net.mamoe:mirai-core-api-jvm:2.7.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.5.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.5.10" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.5.10" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlinx:kotlinx-io-jvm:0.1.16" level="project" />
+    <orderEntry type="library" name="Gradle: io.ktor:ktor-client-okhttp:1.5.4" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-reflect:1.5.10" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlinx:kotlinx-coroutines-io-jvm:0.1.16" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Gradle: org.jetbrains:annotations:13.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-common:1.5.10" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.5.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.2.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:1.2.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlinx:kotlinx-io:0.1.16" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlinx:atomicfu-common:0.14.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlinx:atomicfu-jvm:0.16.1" level="project" />
+    <orderEntry type="library" name="Gradle: com.squareup.okhttp3:okhttp:4.6.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.slf4j:slf4j-api:1.7.30" level="project" />
+    <orderEntry type="library" name="Gradle: io.ktor:ktor-client-core-jvm:1.5.4" level="project" />
+    <orderEntry type="library" name="Gradle: io.ktor:ktor-network-jvm:1.5.4" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlinx:kotlinx-coroutines-io:0.1.16" level="project" />
+    <orderEntry type="library" name="Gradle: com.squareup.okio:okio:2.6.0" level="project" />
+    <orderEntry type="library" name="Gradle: io.ktor:ktor-http-cio-jvm:1.5.4" level="project" />
+    <orderEntry type="library" name="Gradle: io.ktor:ktor-http-jvm:1.5.4" level="project" />
+    <orderEntry type="library" name="Gradle: io.ktor:ktor-utils-jvm:1.5.4" level="project" />
+    <orderEntry type="library" name="Gradle: io.ktor:ktor-io-jvm:1.5.4" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: net.mamoe:mirai-console-compiler-annotations:2.7.0" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.jetbrains:annotations:19.0.0" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: io.github.karlatemp:caller:1.1.1" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.jline:jline:3.15.0" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.fusesource.jansi:jansi:1.18" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.apache.logging.log4j:log4j-api:2.14.1" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: io.netty:netty-all:4.1.63.Final" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.bouncycastle:bcprov-jdk15on:1.64" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: net.mamoe:kotlin-jvm-blocking-bridge-jvm:1.10.3" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: net.mamoe.yamlkt:yamlkt-jvm:0.10.0" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: net.mamoe:mirai-core-utils-jvm:2.7.0" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.jetbrains.kotlinx:kotlinx-serialization-protobuf-jvm:1.2.1" level="project" />
+  </component>
+  <component name="TestModuleProperties" production-module="ChloeServerBot.main" />
+</module>

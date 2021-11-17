@@ -1,0 +1,16 @@
+[
+{
+  "modid": "chloebot",
+  "name": "Chloe's Bot",
+  "description": "Minecraft side of ChloePrime's QQ Bot",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["ChloePrime"],
+  "credits": "Forge, FML",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

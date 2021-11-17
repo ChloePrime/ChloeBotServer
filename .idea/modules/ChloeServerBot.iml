@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module external.linked.project.id="ChloeServerBot" external.linked.project.path="$MODULE_DIR$/../../MiraiPlugin" external.root.project.path="$MODULE_DIR$/../../MiraiPlugin" external.system.id="GRADLE" external.system.module.group="chloeprime.botserver" external.system.module.version="0.0.2" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/../../MiraiPlugin">
+      <excludeFolder url="file://$MODULE_DIR$/../../MiraiPlugin/.gradle" />
+      <excludeFolder url="file://$MODULE_DIR$/../../MiraiPlugin/build" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>
