@@ -2,38 +2,39 @@ package chloeprime.botserver.bot
 
 import chloeprime.botserver.protocol.RequestOperations
 import chloeprime.botserver.protocol.RequestPO
-import chloeprime.botserver.protocol.ResponsePO
 import chloeprime.botserver.protocol.UserCommands
+import io.ktor.network.sockets.*
+import net.mamoe.mirai.console.command.Command
+import net.mamoe.mirai.console.command.CommandSender
+import net.mamoe.mirai.console.command.MemberCommandSender
 
-/**
- * QQ 消息与内部交互用 UserCommand 名称的转化列表
- */
-object UserCommandTranslationTable : MutableMap<String, String> by linkedMapOf() {
-    init {
-        this["好卡的服"] = UserCommands.SHOW_TPS
-    }
-}
+interface MinecraftUserCommand : Command {
+    /**
+     * @param command 可用选项见 [UserCommands]
+     * @return JSON 字符串
+     */
+    suspend fun CommandSender.runOnMinecraft(
+        command: String
+    ): String? {
+        val user: Long
+        val group: Long
+        val commandUser = this.user
 
-suspend fun runUserCommandOnMinecraft(
-    user: Long, group: Long, commandType: String
-) {
-    val request = RequestPO {
-        this.user = user
-        this.group = group
-        operation = RequestOperations.USER_COMMAND
-        msg = commandType
-    }
-    //val response = ChloeServerBot.sendHttpRequest()
-}
-
-fun getUserCommandFeedback(request: RequestPO, response: String): String {
-    return when (request.msg) {
-        UserCommands.SHOW_TPS -> {
-            val tps = ChloeServerBot.GSON.fromJson(response, ResponsePO.Tps::class.java)
-            val tpsStr = String.format("%.2f", tps.tps)
-            val msptStr = String.format("%.2f", tps.mspt)
-            "土豆性能状态: $tpsStr tps ($msptStr mspt)"
+        if (commandUser == null) {
+            // 执行者为 Mirai 控制台
+            user = -1L
+            group = -1L
+        } else {
+            user = commandUser.id
+            group = if (this is MemberCommandSender) this.group.id else -1L
         }
-        else -> throw IllegalArgumentException("Unknown user command: ${request.msg}")
+
+        val request = RequestPO(user, group, RequestOperations.USER_COMMAND, command)
+        return try {
+            ChloeServerBot.sendHttpRequest(request)
+        } catch (ex: SocketTimeoutException) {
+            sendMessage(Resources.SOCKET_TIMEOUT_MSG)
+            null
+        }
     }
 }

@@ -9,17 +9,16 @@ import net.mamoe.mirai.console.command.CommandSender
 import net.mamoe.mirai.console.command.SimpleCommand
 
 /**
- * .tps
- * .好卡的（の）服
+ * .list
  */
-object ShowTpsCommand : SimpleCommand(
-    ChloeServerBot, "tps", "好卡的服", "好卡の服",
+object ListPlayerCommand : SimpleCommand(
+    ChloeServerBot, "list",
     description = "查询服务器tps"
 ), MinecraftUserCommand {
 
     @Handler
     suspend fun CommandSender.handle() {
-        val response = runOnMinecraft(UserCommands.SHOW_TPS) ?: return
+        val response = runOnMinecraft(UserCommands.LIST_PLAYERS) ?: return
 
         val tps = ChloeServerBot.GSON.fromJson(response, ResponsePO.Tps::class.java)
         sendMessage(String.format(Resources.TPS_FORMAT, tps.tps, tps.mspt))
