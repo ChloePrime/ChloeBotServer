@@ -7,6 +7,7 @@ import net.mamoe.mirai.console.command.CommandManager.INSTANCE.unregister
 internal fun registerBotCommands() = processBotCommands { this.register() }
 internal fun unregisterBotCommands() = processBotCommands { this.unregister() }
 
-internal fun processBotCommands(method: Command.() -> Unit) {
-    ShowTpsCommand.method()
+internal fun processBotCommands(action: Command.() -> Unit) {
+    ShowTpsCommand.action()
+    ListPlayerCommand.action()
 }

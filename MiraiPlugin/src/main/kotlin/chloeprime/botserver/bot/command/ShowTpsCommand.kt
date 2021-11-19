@@ -22,6 +22,6 @@ object ShowTpsCommand : SimpleCommand(
         val response = runOnMinecraft(UserCommands.SHOW_TPS) ?: return
 
         val tps = ChloeServerBot.GSON.fromJson(response, ResponsePO.Tps::class.java)
-        sendMessage(String.format(Resources.TPS_FORMAT, tps.tps, tps.mspt))
+        sendMessage(Resources.TPS_FORMAT.format(tps.tps, tps.mspt))
     }
 }

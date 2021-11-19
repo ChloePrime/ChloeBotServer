@@ -22,7 +22,7 @@ import net.mamoe.mirai.event.globalEventChannel
 
 object ChloeServerBot : KotlinPlugin(
     JvmPluginDescription(
-        id = "chloeprime.botserver.bot.ChloeServerBot",
+        id = "chloeprime.botserver.bot",
         name = "ChloeServerBot",
         version = "0.0.1",
     ) {

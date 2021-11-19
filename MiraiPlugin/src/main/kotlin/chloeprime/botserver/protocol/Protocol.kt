@@ -6,6 +6,8 @@
 
 package chloeprime.botserver.protocol
 
+import java.util.*
+
 /**
  * @param user 发送者的QQ号
  * @param group 发送者所在群的QQ群号，-1表示当前上下文不在群聊中。
@@ -58,13 +60,20 @@ object UserCommands {
     const val LIST_PLAYERS = "ListPlayers"
 }
 
+
 object ResponsePO {
     class Tps(
-        val tps: Double,
-        val mspt: Double
+        @JvmField val tps: Double,
+        @JvmField val mspt: Double
     )
 
     class PlayerList(
-        val names: Array<String>,
-    )
+        @JvmField val capacity: Int,
+        @JvmField val entries: Array<Entry>,
+    ) {
+        class Entry(
+            @JvmField val name: String,
+            @JvmField val uuid: UUID
+        )
+    }
 }
