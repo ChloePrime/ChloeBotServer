@@ -40,7 +40,7 @@ internal object ServerCommandSystem {
         try {
             withContext(Dispatchers.IO) {
                 val feedback = runServerCommandOnMinecraft(user, group, command) ?: return@withContext
-                feedbackTarget.sendMessage(feedback)
+                feedbackTarget.sendMessage(feedback.ifEmpty { "指令执行成功" })
             }
         } catch (ex: Exception) {
             feedbackTarget.sendMessage("[Error] $ex")
