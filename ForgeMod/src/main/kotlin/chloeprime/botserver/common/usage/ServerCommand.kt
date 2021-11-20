@@ -1,5 +1,6 @@
 package chloeprime.botserver.common.usage
 
+import chloeprime.botserver.BotServerMod
 import chloeprime.botserver.common.*
 import chloeprime.botserver.common.redirectCommand
 import chloeprime.botserver.common.util.ASYNC_EXECUTOR
@@ -40,6 +41,7 @@ private fun handle0(httpExchange: HttpExchange, request: RequestPO) {
         val startTime = System.currentTimeMillis()
 
         try {
+            BotServerMod.logger.info("QQ用户 ${request.user} 执行命令 $command")
             mcServer.commandManager.executeCommand(sender, command)
         } catch (ex: Exception) {
             sender.sendMessage("命令执行过程中遇到了未知的错误: $ex")
