@@ -8,6 +8,7 @@ import chloeprime.botserver.protocol.UserCommands
 import net.mamoe.mirai.console.command.CommandSender
 import net.mamoe.mirai.console.command.SimpleCommand
 import net.mamoe.mirai.message.data.buildForwardMessage
+import java.util.*
 
 /**
  * .list
@@ -21,7 +22,7 @@ object ListPlayerCommand : SimpleCommand(
     suspend fun CommandSender.handle() {
         val response = runOnMinecraft(UserCommands.LIST_PLAYERS) ?: return
 
-        val subject = this.subject?: run {
+        val subject = this.subject ?: run {
             // 把 json 直接打印到控制台
             sendMessage(response)
             return
@@ -37,15 +38,34 @@ object ListPlayerCommand : SimpleCommand(
             return
         }
 
+        val sortedPlayerNames = playerList.entries.sortedBy {
+            it.name.lowercase(Locale.ENGLISH)
+        }
+
         val fullMessage = buildForwardMessage(subject) {
             subject.bot says Resources.PLAYERLIST_HEADER
 
-            playerList.entries.sortedBy {
-                it.name
-            }.forEach {
-                subject.bot says it.name
+            // 一次转发太多消息的话会发不出来，
+            // 所以将多个玩家的信息合并为一条消息。
+            val maxBatches = 12
+            val batchStep = (sortedPlayerNames.size - 1) / maxBatches + 1
+
+            val i = sortedPlayerNames.iterator()
+            while (i.hasNext()) {
+                val sb = StringBuilder()
+
+                repeat(batchStep) {
+                    if (i.hasNext()) {
+                        sb.append(i.next().name).append('\n')
+                    }
+                }
+
+                // 去除末尾的换行符
+                sb.setLength(sb.length - 1)
+                subject.bot says sb.toString()
             }
         }
+
         sendMessage(fullMessage)
     }
 }
