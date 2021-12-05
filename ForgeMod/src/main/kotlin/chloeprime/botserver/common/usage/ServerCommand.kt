@@ -24,11 +24,10 @@ internal fun serverCommand(request: RequestPO, httpExchange: HttpExchange) {
 
 /**
  * 判断当前用户是否有权限执行命令
+ * **1.0.0 版本之后将在 bot 侧做权限控制。**
  */
 private fun isAuthorized(request: RequestPO): Boolean {
-    return with(ModConfig.INSTANCE) {
-        request.user in authorizedUsers || request.group in authorizedGroups
-    }
+    return true
 }
 
 private fun handle0(httpExchange: HttpExchange, request: RequestPO) {

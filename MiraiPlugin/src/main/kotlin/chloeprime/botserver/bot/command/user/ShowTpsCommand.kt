@@ -1,4 +1,4 @@
-package chloeprime.botserver.bot.command
+package chloeprime.botserver.bot.command.user
 
 import chloeprime.botserver.bot.ChloeServerBot
 import chloeprime.botserver.bot.MinecraftUserCommand

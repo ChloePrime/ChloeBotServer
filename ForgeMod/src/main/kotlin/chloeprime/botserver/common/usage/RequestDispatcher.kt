@@ -17,6 +17,7 @@ object RequestDispatcher {
         operations[RequestOperations.USER_COMMAND] = ::userCommand
         userCommands[UserCommands.SHOW_TPS] = ::showTps
         userCommands[UserCommands.LIST_PLAYERS] = ::listPlayers
+        userCommands[UserCommands.PAT] = ::pat
     }
 
     fun dispatchRequest(requestPO: RequestPO, httpExchange: HttpExchange) {
@@ -27,7 +28,7 @@ object RequestDispatcher {
     }
 
     private fun userCommand(request: RequestPO, httpExchange: HttpExchange) {
-        val cmd = request.msg.trim()
+        val cmd = request.msg.trim().substringAfter(';')
         val action = userCommands[cmd] ?: throw IllegalArgumentException(
             "Unknown user command: ${request.msg.trim()}"
         )

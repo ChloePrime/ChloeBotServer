@@ -1,27 +1,15 @@
 package chloeprime.botserver.common
 
 import com.google.gson.GsonBuilder
-import it.unimi.dsi.fastutil.longs.LongOpenHashSet
 import net.minecraft.command.ICommandSender
 import java.io.File
 
 open class ModConfig {
     /**
+     * 需要重启 Minecraft 服务器方可生效
      * @RequiresMcRestart
      */
     val port = 8086
-
-    /**
-     * QQ User
-     */
-    @JvmField
-    val authorizedUsers = LongOpenHashSet()
-
-    /**
-     * QQ Group
-     */
-    @JvmField
-    val authorizedGroups = LongOpenHashSet()
 
     /**
      * Bot 使用的 [ICommandSender] 的名称

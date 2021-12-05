@@ -5,6 +5,8 @@ import chloeprime.botserver.protocol.RequestPO
 import io.ktor.network.sockets.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import net.mamoe.mirai.console.command.CommandSender.Companion.toCommandSender
+import net.mamoe.mirai.console.permission.PermissionService.Companion.hasPermission
 import net.mamoe.mirai.contact.Contact
 import net.mamoe.mirai.event.EventChannel
 import net.mamoe.mirai.event.events.GroupEvent
@@ -24,22 +26,30 @@ internal object ServerCommandSystem {
             return
         }
 
+        if (!e.toCommandSender().hasPermission(ChloeServerBot.Permissions.RUN_SERVER_COMMAND)) {
+            return
+        }
+
         val user = e.sender.id
-        val group: Long
+
         val feedbackTarget: Contact
+        val group: Long
+        val mcServer: MinecraftBotServer
         val command = e.message.content.substring("/".length)
 
         if (e is GroupEvent) {
             feedbackTarget = e.group
             group = e.group.id
+            mcServer = ServerSelector.getByGroup(e.group)
         } else {
             feedbackTarget = e.sender
             group = -1L
+            mcServer = ServerSelector.getByUser(e.sender)
         }
 
         try {
             withContext(Dispatchers.IO) {
-                val feedback = runServerCommandOnMinecraft(user, group, command) ?: return@withContext
+                val feedback = runServerCommandOnMinecraft(user, group, mcServer, command) ?: return@withContext
                 feedbackTarget.sendMessage(feedback.ifEmpty { "指令执行成功" })
             }
         } catch (ex: Exception) {
@@ -61,12 +71,12 @@ internal object ServerCommandSystem {
      * @return 发送给 QQ 用户的反馈消息
      */
     private suspend fun runServerCommandOnMinecraft(
-        user: Long, group: Long, command: String
+        user: Long, group: Long, mcServer: MinecraftBotServer, command: String
     ): String? {
         val request = RequestPO(user, group, RequestOperations.SERVER_COMMAND, command)
 
         return try {
-            ChloeServerBot.sendHttpRequest(request)
+            mcServer.sendRequestTo(request)
         } catch (ex: SocketTimeoutException) {
             if (command == "stop" || command == "restart") {
                 Resources.SERVER_STOP_MSG

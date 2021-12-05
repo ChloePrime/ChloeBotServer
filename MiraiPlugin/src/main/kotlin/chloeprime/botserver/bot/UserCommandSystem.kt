@@ -14,7 +14,8 @@ interface MinecraftUserCommand : Command {
      * @return JSON 字符串
      */
     suspend fun CommandSender.runOnMinecraft(
-        command: String
+        command: String,
+        context: Any? = null
     ): String? {
         val user: Long
         val group: Long
@@ -30,8 +31,12 @@ interface MinecraftUserCommand : Command {
         }
 
         val request = RequestPO(user, group, RequestOperations.USER_COMMAND, command)
+        if (context != null) {
+            request.msgContext = ChloeServerBot.GSON.toJson(context)
+        }
+
         return try {
-            ChloeServerBot.sendHttpRequest(request)
+            ServerSelector.get(this).sendRequestTo(request)
         } catch (ex: SocketTimeoutException) {
             sendMessage(Resources.SOCKET_TIMEOUT_MSG)
             null

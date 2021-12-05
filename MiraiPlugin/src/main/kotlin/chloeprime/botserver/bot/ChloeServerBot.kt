@@ -1,20 +1,12 @@
 package chloeprime.botserver.bot
 
-import chloeprime.botserver.bot.command.processBotCommands
 import chloeprime.botserver.bot.command.registerBotCommands
 import chloeprime.botserver.bot.command.unregisterBotCommands
-import chloeprime.botserver.protocol.RequestPO
 import com.google.gson.GsonBuilder
-import io.ktor.client.*
-import io.ktor.client.call.*
-import io.ktor.client.request.*
-import io.ktor.client.statement.*
-import io.ktor.http.*
-import io.ktor.network.sockets.*
-import net.mamoe.mirai.console.command.CommandManager.INSTANCE.register
 import net.mamoe.mirai.console.data.ReadOnlyPluginConfig
 import net.mamoe.mirai.console.data.ValueDescription
 import net.mamoe.mirai.console.data.value
+import net.mamoe.mirai.console.permission.PermissionService
 import net.mamoe.mirai.console.plugin.jvm.JvmPluginDescription
 import net.mamoe.mirai.console.plugin.jvm.KotlinPlugin
 import net.mamoe.mirai.event.events.MessageEvent
@@ -29,16 +21,24 @@ object ChloeServerBot : KotlinPlugin(
         author("ChloePrime")
     }
 ) {
-    internal val GSON = GsonBuilder().create()
-    private val httpClient = HttpClient {
-        expectSuccess = false
+    object Permissions {
+        val RUN_SERVER_COMMAND by lazy {
+            PermissionService.INSTANCE.register(permissionId("server-command"), "发送 MC 服务器命令")
+        }
+
+        internal fun init() {
+            RUN_SERVER_COMMAND
+        }
     }
+
+    internal val GSON = GsonBuilder().create()
 
     override fun onEnable() {
         super.onEnable()
 
         BotConfig.reload()
         registerBotCommands()
+        Permissions.init()
 
         val channel = globalEventChannel().filterIsInstance<MessageEvent>()
         ServerCommandSystem.registerListener(channel)
@@ -50,42 +50,23 @@ object ChloeServerBot : KotlinPlugin(
         super.onDisable()
 
         unregisterBotCommands()
-        httpClient.close()
+        MinecraftBotServer.httpClient.close()
 
         logger.info("ChloeServerBot unloaded")
-    }
-
-    /**
-     * 向 MC 侧发送请求执行指令，并获取返回结果
-     *
-     * @return 如果无需发送反馈则返回 null
-     * @throws SocketTimeoutException
-     */
-    internal suspend fun sendHttpRequest(
-        request: RequestPO,
-    ): String? {
-        val httpBody = GSON.toJson(request)
-
-        val response: HttpResponse = httpClient.post {
-            port = BotConfig.minecraftPort
-            body = httpBody
-        }
-
-        return when (response.status) {
-            HttpStatusCode.OK -> response.receive()
-            // 无权执行命令，直接无视
-            HttpStatusCode.Forbidden -> return null
-            // 打印状态码
-            else -> response.status.toString()
-        }
     }
 }
 
 internal object BotConfig : ReadOnlyPluginConfig("Config") {
     /**
-     * MC 侧配套插件/mod监听的端口，
-     * 不是 MC 服务器的端口
+     * .server 的可用目标
      */
-    @ValueDescription("MC侧配套插件/mod监听的端口，不是MC服务器的端口")
-    val minecraftPort by value(8086)
+    @ValueDescription("MC 服务器列表")
+    val servers by value(
+        mapOf(
+            "test" to MinecraftBotServer(port = 8087)
+        )
+    )
+
+    @ValueDescription("默认使用的 MC 服务器列表")
+    val defaultServer by value(MinecraftBotServer(port = 8086))
 }

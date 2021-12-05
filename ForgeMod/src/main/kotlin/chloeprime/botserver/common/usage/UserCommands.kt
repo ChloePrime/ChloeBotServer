@@ -3,10 +3,14 @@ package chloeprime.botserver.common.usage
 import chloeprime.botserver.common.util.ASYNC_EXECUTOR
 import chloeprime.botserver.common.util.mcServer
 import chloeprime.botserver.common.util.ok
+import chloeprime.botserver.protocol.RequestContext
 import chloeprime.botserver.protocol.RequestPO
 import chloeprime.botserver.protocol.ResponsePO
 import com.google.gson.GsonBuilder
 import com.sun.net.httpserver.HttpExchange
+import net.minecraft.entity.player.EntityPlayerMP
+import net.minecraft.util.text.TextComponentString
+import net.minecraft.util.text.TextFormatting
 import kotlin.math.min
 
 private val GSON = GsonBuilder().create()
@@ -31,6 +35,26 @@ internal fun listPlayers(request: RequestPO, httpExchange: HttpExchange) {
             ResponsePO.PlayerList.Entry(it.name, it.uniqueID)
         }
         val response = ResponsePO.PlayerList(maxPlayer, players.toTypedArray())
+
+        ASYNC_EXECUTOR.execute {
+            httpExchange.ok(GSON.toJson(response))
+        }
+    }
+}
+
+internal fun pat(request: RequestPO, httpExchange: HttpExchange) {
+    val server = mcServer
+    val ctx = GSON.fromJson(request.msgContext, RequestContext.Pat::class.java)
+    server.addScheduledTask {
+        val player = server.playerList.getPlayerByUsername(ctx.playerName)
+
+        val response = ResponsePO.Pat(0)
+        if (player == null) {
+            response.errorCode = ResponsePO.Pat.ERR_PLAYER_NOT_ONLINE
+        } else {
+            // ==> .pat 的核心逻辑 <==
+            pat0(player, request, ctx)
+        }
 
         ASYNC_EXECUTOR.execute {
             httpExchange.ok(GSON.toJson(response))
