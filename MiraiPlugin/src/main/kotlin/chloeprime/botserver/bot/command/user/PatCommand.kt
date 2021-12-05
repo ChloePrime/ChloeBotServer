@@ -20,7 +20,7 @@ object PatCommand : SimpleCommand(
 ), MinecraftUserCommand {
 
     @Handler
-    suspend fun CommandSender.handle(target: String, text: String?) {
+    suspend fun CommandSender.handle(target: String, text: String? = null) {
         val userName = user?.nick ?: "控制台"
         val groupName = getGroupOrNull()?.name
 

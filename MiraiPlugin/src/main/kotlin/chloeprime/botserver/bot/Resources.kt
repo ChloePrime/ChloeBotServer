@@ -6,6 +6,7 @@ object Resources {
 
     const val CHANGE_SERVER_SUCCESS = "将当前服务器切换至 %s"
     const val CHANGE_SERVER_NONEXIST = "服务器配置 %s 不存在，将使用默认服务器"
+    const val CHANGE_SERVER_RESET = "将当前服务器切换至默认服务器"
 
     const val PLAYERLIST_COUNT = "服务器当前在线人数: %d / %d"
     const val PLAYERLIST_HEADER = "当前在线玩家列表:"

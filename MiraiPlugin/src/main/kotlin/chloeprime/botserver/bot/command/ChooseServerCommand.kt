@@ -15,7 +15,12 @@ object ChooseServerCommand : SimpleCommand(
     description = "设置当前聊天上下文使用的 MC 服务器"
 ) {
     @Handler
-    suspend fun CommandSender.handle(selection: String) {
+    suspend fun CommandSender.handle(selection: String? = null) {
+        if (selection == null) {
+            ServerSelector.put(this, "🐢🐢🐢")
+            sendMessage(Resources.CHANGE_SERVER_RESET)
+            return
+        }
         val feedback: String =
             if (!ServerSelector.hasOverrideForServerName(selection)) {
                 Resources.CHANGE_SERVER_NONEXIST

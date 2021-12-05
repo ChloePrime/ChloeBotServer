@@ -65,7 +65,7 @@ object ServerSelector {
     }
 
     fun hasOverrideForServerName(selection: String): Boolean {
-        return getServer(selection) === default
+        return getServer(selection) !== default
     }
 
     /**
