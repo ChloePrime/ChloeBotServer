@@ -8,12 +8,26 @@ package chloeprime.botserver.common.usage
 import chloeprime.botserver.protocol.RequestContext
 import chloeprime.botserver.protocol.RequestPO
 import net.minecraft.entity.player.EntityPlayerMP
+import net.minecraft.network.play.server.SPacketAnimation
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TextComponentString
 import net.minecraft.util.text.TextFormatting
 import net.minecraft.util.text.event.HoverEvent
+import net.minecraft.world.WorldServer
+
+internal fun patAnimation(player: EntityPlayerMP) {
+    val serverWorld = player.world as? WorldServer ?: return
+    val animType = 1
+    serverWorld.entityTracker.sendToTrackingAndSelf(player, SPacketAnimation(player, animType))
+}
 
 internal fun pat0(player: EntityPlayerMP, requestPO: RequestPO, ctx: RequestContext.Pat) {
+    patAnimation(player)
+    sendPatMessage(player, requestPO, ctx)
+}
+
+internal fun sendPatMessage(player: EntityPlayerMP, requestPO: RequestPO, ctx: RequestContext.Pat) {
+
     val action = ctx.actionOverload ?: "拍了拍"
 
     // "{QQ昵称}"
