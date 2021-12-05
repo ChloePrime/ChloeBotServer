@@ -78,7 +78,7 @@ internal fun getQqUserInfo(requestPO: RequestPO, ctx: RequestContext.Pat): IText
     // Line1（QQ用户信息）
     val text = TextComponentString("QQ用户 ", TextFormatting.WHITE)
         .appendText(ctx.userName, TextFormatting.GREEN)
-        .appendText("(", TextFormatting.YELLOW)
+        .appendText(" (", TextFormatting.YELLOW)
         .appendText(requestPO.user.toString(), TextFormatting.AQUA)
         .appendText(")", TextFormatting.YELLOW)
     // Line2（群信息）
@@ -86,7 +86,7 @@ internal fun getQqUserInfo(requestPO: RequestPO, ctx: RequestContext.Pat): IText
     if (ctxGroupName != null) {
         text.appendText("\n来自群 ", TextFormatting.WHITE)
             .appendText(ctxGroupName, TextFormatting.GREEN)
-            .appendText("(", TextFormatting.YELLOW)
+            .appendText(" (", TextFormatting.YELLOW)
             .appendText(requestPO.group.toString(), TextFormatting.AQUA)
             .appendText(")", TextFormatting.YELLOW)
     }
