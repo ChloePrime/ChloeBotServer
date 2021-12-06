@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "chloeprime.botserver"
-version = "1.1.3"
+version = "1.2.2"
 
 repositories {
     maven("https://maven.aliyun.com/repository/public")

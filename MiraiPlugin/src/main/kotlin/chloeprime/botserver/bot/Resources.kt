@@ -13,7 +13,7 @@ object Resources {
 
     const val TPS_FORMAT = "土豆性能状态: %.2f tps (%.2f mspt)"
 
-    const val PAT_SUCCESS = "你成功地拍了拍 %s"
-    const val PAT_ERROR_TARGET_OFFLINE = "%s 当前并未上线或从未登录过服务器哦"
-
+    const val PAT_SUCCESS = "你成功地%s%s"
+    const val TELL_SUCCESS = "消息已成功发送至 %2\$s"
+    const val PAT_ERROR_TARGET_OFFLINE = "%2\$s 当前并未上线或从未登录过服务器哦"
 }

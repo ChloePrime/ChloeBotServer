@@ -16,7 +16,7 @@ object ChooseServerCommand : SimpleCommand(
 ) {
     @Handler
     suspend fun CommandSender.handle(selection: String? = null) {
-        if (selection == null) {
+        if (selection == null || selection == "-reset") {
             ServerSelector.put(this, "🐢🐢🐢")
             sendMessage(Resources.CHANGE_SERVER_RESET)
             return
