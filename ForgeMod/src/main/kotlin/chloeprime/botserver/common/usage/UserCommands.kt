@@ -22,7 +22,8 @@ internal fun showTps(request: RequestPO, httpExchange: HttpExchange) {
         val tps = min(1000.0 / mspt, 20.0)
 
         ASYNC_EXECUTOR.execute {
-            httpExchange.ok("{tps=$tps,mspt=$mspt}")
+            val po = ResponsePO.Tps(tps, mspt)
+            httpExchange.ok(GSON.toJson(po))
         }
     }
 }
