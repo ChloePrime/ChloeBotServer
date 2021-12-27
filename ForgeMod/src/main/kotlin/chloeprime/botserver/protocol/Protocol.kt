@@ -32,12 +32,12 @@ object RequestContext {
     class Pat : NamedBase() {
         @JvmField var playerName = ""
         @JvmField var text: String? = null
-        @JvmField var action = Actions.SHAKE_SCREEN
+        @JvmField var animation = Animations.SHAKE_SCREEN
         @JvmField var soundFx: String? = "minecraft:entity.experience_orb.pickup"
         @JvmField var actionOverload: String? = null
 
         companion object {
-            object Actions {
+            object Animations {
                 const val SHAKE_SCREEN = 1 shl 0
             }
         }

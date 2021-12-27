@@ -16,30 +16,39 @@ interface MinecraftUserCommand : Command {
     suspend fun CommandSender.runOnMinecraft(
         command: String,
         context: Any? = null
-    ): String? {
-        val user: Long
-        val group: Long
-        val commandUser = this.user
+    ) = this.runMinecraftUserCommand(command, context)
+}
 
-        if (commandUser == null) {
-            // 执行者为 Mirai 控制台
-            user = -1L
-            group = -1L
-        } else {
-            user = commandUser.id
-            group = if (this is MemberCommandSender) this.group.id else -1L
-        }
+suspend fun CommandSender.runMinecraftUserCommand(
+    command: String,
+    context: Any? = null
+): String? {
+    val user: Long
+    val group: Long
+    val commandUser = this.user
 
-        val request = RequestPO(user, group, RequestOperations.USER_COMMAND, command)
-        if (context != null) {
-            request.msgContext = ChloeServerBot.GSON.toJson(context)
-        }
+    if (commandUser == null) {
+        // 执行者为 Mirai 控制台
+        user = -1L
+        group = -1L
+    } else {
+        user = commandUser.id
+        group = if (this is MemberCommandSender) this.group.id else -1L
+    }
 
-        return try {
-            ServerSelector.get(this).sendRequestTo(request)
-        } catch (ex: SocketTimeoutException) {
-            sendMessage(Resources.SOCKET_TIMEOUT_MSG)
-            null
-        }
+    val request = RequestPO(user, group, RequestOperations.USER_COMMAND, command)
+    if (context != null) {
+        request.msgContext = ChloeServerBot.GSON.toJson(context)
+    }
+
+    return try {
+        ServerSelector.get(this).sendRequestTo(request)
+    } catch (ex: SocketTimeoutException) {
+        sendMessage(Resources.SOCKET_TIMEOUT_MSG)
+        null
+    } catch (ex: Exception) {
+        sendMessage(Resources.UNKNOWN_ERROR_MSG)
+        ChloeServerBot.logger.error(ex)
+        null
     }
 }

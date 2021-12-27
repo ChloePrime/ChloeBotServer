@@ -16,11 +16,7 @@ import net.mamoe.mirai.message.data.*
 
 internal object ServerCommandSystem {
 
-    internal fun registerListener(channel: EventChannel<MessageEvent>) {
-        channel.subscribeAlways(::onServerCommand)
-    }
-
-    private suspend fun onServerCommand(e: MessageEvent) {
+    suspend fun onServerCommand(e: MessageEvent) {
 
         if (!isValidCommand(e.message)) {
             return

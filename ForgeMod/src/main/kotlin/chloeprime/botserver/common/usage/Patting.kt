@@ -6,7 +6,7 @@
 package chloeprime.botserver.common.usage
 
 import chloeprime.botserver.protocol.RequestContext
-import chloeprime.botserver.protocol.RequestContext.Pat.Companion.Actions
+import chloeprime.botserver.protocol.RequestContext.Pat.Companion.Animations
 import chloeprime.botserver.protocol.RequestPO
 import net.minecraft.command.CommandPlaySound
 import net.minecraft.entity.player.EntityPlayerMP
@@ -25,7 +25,7 @@ import net.minecraft.world.WorldServer
 internal fun patAnimation(player: EntityPlayerMP, actions: Int) {
     val serverWorld = player.world as? WorldServer ?: return
 
-    if ((actions and Actions.SHAKE_SCREEN) > 0) {
+    if ((actions and Animations.SHAKE_SCREEN) > 0) {
         val animType = 1
         serverWorld.entityTracker.sendToTrackingAndSelf(
             player, SPacketAnimation(player, animType)
@@ -44,7 +44,7 @@ internal fun EntityPlayerMP.playSound(snd: String) {
 }
 
 internal fun pat0(player: EntityPlayerMP, requestPO: RequestPO, ctx: RequestContext.Pat) {
-    patAnimation(player, ctx.action)
+    patAnimation(player, ctx.animation)
     ctx.soundFx?.let { player.playSound(it) }
     sendPatMessage(player, requestPO, ctx)
 }

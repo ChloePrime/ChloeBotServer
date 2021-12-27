@@ -2,6 +2,7 @@ package chloeprime.botserver.bot
 
 import chloeprime.botserver.bot.command.registerBotCommands
 import chloeprime.botserver.bot.command.unregisterBotCommands
+import chloeprime.botserver.bot.customaction.CustomActionListener
 import com.google.gson.GsonBuilder
 import net.mamoe.mirai.console.data.ReadOnlyPluginConfig
 import net.mamoe.mirai.console.data.ValueDescription
@@ -11,6 +12,8 @@ import net.mamoe.mirai.console.plugin.jvm.JvmPluginDescription
 import net.mamoe.mirai.console.plugin.jvm.KotlinPlugin
 import net.mamoe.mirai.event.events.MessageEvent
 import net.mamoe.mirai.event.globalEventChannel
+import net.mamoe.mirai.event.subscribeAlways
+import net.mamoe.mirai.message.data.content
 
 object ChloeServerBot : KotlinPlugin(
     JvmPluginDescription(
@@ -25,9 +28,13 @@ object ChloeServerBot : KotlinPlugin(
         val RUN_SERVER_COMMAND by lazy {
             PermissionService.INSTANCE.register(permissionId("server-command"), "发送 MC 服务器命令")
         }
+        val CUSTOM_MINECRAFT_ACTION by lazy {
+            PermissionService.INSTANCE.register(permissionId("custom-action"), "发送自定义 .pat 信息 ('#' + 动词 + 玩家id)")
+        }
 
         internal fun init() {
             RUN_SERVER_COMMAND
+            CUSTOM_MINECRAFT_ACTION
         }
     }
 
@@ -41,7 +48,8 @@ object ChloeServerBot : KotlinPlugin(
         Permissions.init()
 
         val channel = globalEventChannel().filterIsInstance<MessageEvent>()
-        ServerCommandSystem.registerListener(channel)
+        channel.subscribeAlways(ServerCommandSystem::onServerCommand)
+        channel.filter(CustomActionListener::filter).subscribeAlways(CustomActionListener::onMessage)
 
         logger.info("ChloeServerBot loaded")
     }

@@ -3,6 +3,7 @@ package chloeprime.botserver.bot
 object Resources {
     const val SERVER_STOP_MSG = "服务器开始关闭"
     const val SOCKET_TIMEOUT_MSG = "连接超时，服务器未响应"
+    const val UNKNOWN_ERROR_MSG = "发生了未知错误"
 
     const val CHANGE_SERVER_SUCCESS = "将当前服务器切换至 %s"
     const val CHANGE_SERVER_NONEXIST = "服务器配置 %s 不存在，将使用默认服务器"
