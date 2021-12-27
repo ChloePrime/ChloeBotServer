@@ -28,7 +28,7 @@ class BotServerMod {
     companion object {
         const val MODID = "chloebot"
         const val NAME = "Chloe's Bot"
-        const val VERSION = "1.0.0"
+        const val VERSION = "1.2.1"
         lateinit var logger : Logger @JvmStatic get private set
 
         private var httpServer: HttpServer? = null
