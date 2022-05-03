@@ -81,6 +81,10 @@ dependencies {
     implementation fileTree(dir: 'libs', includes: ['*.jar'])
     compile "org.bukkit:bukkit:1.12.2-R0.1-SNAPSHOT"
     compile "org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT"
+    compile "io.ktor:ktor-server-netty:2.0.0"
+    compile "io.ktor:ktor-server-core:2.0.0"
+    compile "io.ktor:ktor-auth-jwt:1.6.8"
+    compile "io.ktor:ktor-gson:1.6.8"
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..
