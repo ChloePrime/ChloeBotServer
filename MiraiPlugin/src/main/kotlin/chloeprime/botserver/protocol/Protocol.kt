@@ -99,11 +99,35 @@ object ResponsePO {
 
     class PlayerList(
         @JvmField val capacity: Int,
-        @JvmField val entries: Array<Entry>
+        @JvmField val entries: List<Entry>
     ) {
         class Entry(
             @JvmField val name: String,
-            @JvmField val uuid: UUID
+            @JvmField val uuid: UUID,
+            @JvmField val hp: Float,
+            @JvmField val ping: Int,
+            @JvmField val rpg: RPGInfo?,
+            @JvmField val loc: Location
+        )
+
+        class Location(
+            val x: Double,
+            val y: Double,
+            val z: Double,
+            /**
+             * 维度 ID
+             */
+            val w: Int,
+            /**
+             * 维度（世界）名称
+             */
+            val wname: String
+        )
+
+        class RPGInfo(
+            val `class`: String,
+            val level: Int,
+            val exp: Int
         )
     }
 

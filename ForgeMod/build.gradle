@@ -21,6 +21,7 @@ group = mod_maven_group
 archivesBaseName = mod_filename
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
+compileKotlin.kotlinOptions.jvmTarget = "1.8"
 tasks.withType(JavaCompile) {
     options.encoding = "utf8"
 }
@@ -62,16 +63,24 @@ minecraft {
 }
 
 repositories {
+    flatDir {
+        dir 'libs'
+    }
+
     maven { url 'https://maven.aliyun.com/repository/public/' }
     mavenCentral()
-    maven {
-        url "http://maven.shadowfacts.net/"
-    }
+
+    maven {url "http://maven.shadowfacts.net/"}
+    maven { url = "https://hub.spigotmc.org/nexus/content/repositories/public/" }
 }
 
 dependencies {
     minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2855'
     implementation group: "net.shadowfacts", name: "Forgelin", version: "1.8.3"
+
+    implementation fileTree(dir: 'libs', includes: ['*.jar'])
+    compile "org.bukkit:bukkit:1.12.2-R0.1-SNAPSHOT"
+    compile "org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT"
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..
