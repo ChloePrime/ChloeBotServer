@@ -23,6 +23,7 @@ open class ModConfig {
     @JvmField
     val webApiUserNameAndPassword = linkedMapOf("test" to "test")
 
+    @JvmField
     val secretKey = "ChloePrPr"
 
     /**
