@@ -35,7 +35,7 @@ minecraft {
     //mappings channel: 'snapshot', version: '20171003-1.12'
     mappings channel: 'snapshot', version: '20171003-1.12'
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
-    
+
     // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
     // Default run configurations.
@@ -70,7 +70,8 @@ repositories {
     maven { url 'https://maven.aliyun.com/repository/public/' }
     mavenCentral()
 
-    maven {url "http://maven.shadowfacts.net/"}
+    maven { url = "https://repo1.maven.org/maven2/" }
+    maven { url "http://maven.shadowfacts.net/" }
     maven { url = "https://hub.spigotmc.org/nexus/content/repositories/public/" }
 }
 
@@ -80,31 +81,30 @@ dependencies {
 
     implementation fileTree(dir: 'libs', includes: ['*.jar'])
     compile "org.bukkit:bukkit:1.12.2-R0.1-SNAPSHOT"
-    compile "org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT"
-    compile "io.ktor:ktor-server-netty:2.0.0"
-    compile "io.ktor:ktor-server-engine :2.0.0"
-    compile "io.ktor:ktor-auth-jwt:1.6.8"
-    compile "io.ktor:ktor-gson:1.6.8"
+    implementation "org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT"
+    implementation "io.ktor:ktor-auth-jwt:1.2.6"
+    implementation "io.ktor:ktor-server-netty:1.2.6"
+    implementation "io.ktor:ktor-gson:1.2.6"
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..
 jar {
     manifest {
         attributes([
-            "Specification-Title": "examplemod",
-            "Specification-Vendor": "examplemodsareus",
-            "Specification-Version": "1", // We are version 1 of ourselves
-            "Implementation-Title": project.name,
-            "Implementation-Version": "${version}",
-            "Implementation-Vendor" :"examplemodsareus",
-            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+                "Specification-Title"     : "examplemod",
+                "Specification-Vendor"    : "examplemodsareus",
+                "Specification-Version"   : "1", // We are version 1 of ourselves
+                "Implementation-Title"    : project.name,
+                "Implementation-Version"  : "${version}",
+                "Implementation-Vendor"   : "examplemodsareus",
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
 }
 
 // Example configuration to allow publishing using the maven-publish task
 // This is the preferred method to reobfuscate your jar file
-jar.finalizedBy('reobfJar') 
+jar.finalizedBy('reobfJar')
 // However if you are in a multi-project build, dev time needs unobfed jar files, so you can delay the obfuscation until publishing by doing
 //publish.dependsOn('reobfJar')
 

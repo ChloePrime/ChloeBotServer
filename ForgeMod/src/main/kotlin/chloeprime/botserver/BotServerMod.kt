@@ -1,17 +1,16 @@
 package chloeprime.botserver
 
-import chloeprime.botserver.common.BotHttpHandler
-import chloeprime.botserver.common.CommandReloadConfig
-import chloeprime.botserver.common.ModConfig
-import com.sun.net.httpserver.HttpServer
-import net.minecraftforge.fml.common.Mod
-import net.minecraftforge.fml.common.event.FMLInitializationEvent
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent
-import net.minecraftforge.fml.common.event.FMLServerStoppingEvent
-import org.apache.logging.log4j.Logger
-import java.io.File
-import java.net.InetSocketAddress
+import chloeprime.botserver.common.*
+import chloeprime.botserver.webServer.*
+import com.sun.net.httpserver.*
+import io.ktor.application.*
+import io.ktor.server.engine.*
+import io.ktor.server.netty.*
+import net.minecraftforge.fml.common.*
+import net.minecraftforge.fml.common.event.*
+import org.apache.logging.log4j.*
+import java.io.*
+import java.net.*
 
 /**
  * @author ChloePrime
@@ -29,7 +28,7 @@ class BotServerMod {
         const val MODID = "chloebot"
         const val NAME = "Chloe's Bot"
         const val VERSION = "1.2.1"
-        lateinit var logger : Logger @JvmStatic get private set
+        lateinit var logger: Logger @JvmStatic get private set
 
         private var httpServer: HttpServer? = null
 
@@ -55,6 +54,8 @@ class BotServerMod {
         }
 
         logger.info("Chloe Bot server is listening to port $port")
+
+        embeddedServer(Netty, port = 8080, module = Application::module).start()
     }
 
     @Mod.EventHandler

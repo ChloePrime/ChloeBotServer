@@ -33,7 +33,7 @@ class BukkitProxy : CommonProxy() {
          */
         val surelyVisible = permlessPlayers.asMap().keys.any { pidPermless ->
             if (pidPermless == pidTested) {
-                /*continue*/return false
+                return false
             }
 
             val permless = server.playerList.getPlayerByUUID(pidPermless)
@@ -51,7 +51,7 @@ class BukkitProxy : CommonProxy() {
          */
         return allPlayers.all { tester ->
             if (tester.uniqueId == pidTested) {
-                /*continue*/return true
+                return@all true
             }
 
             val canSee = tester.canSee(bukkitPlayer)
