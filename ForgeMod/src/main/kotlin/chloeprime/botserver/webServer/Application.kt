@@ -1,5 +1,6 @@
 package chloeprime.botserver.webServer
 
+import chloeprime.botserver.common.*
 import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.auth.jwt.*
@@ -10,6 +11,7 @@ import io.ktor.http.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
+import org.apache.http.auth.*
 
 private val verifier = Auth.makeJwtVerifier()
 
@@ -22,6 +24,12 @@ fun Application.module() {
 
     // 添加状态页
     install(StatusPages) {
+        exception<InvalidCredentialsException> { exception ->
+            call.respond(
+                HttpStatusCode.Unauthorized,
+                mapOf("OK" to false, "error" to (exception.message ?: ""))
+            )
+        }
         status(HttpStatusCode.NotFound) {
             call.respond(
                 TextContent(
@@ -62,7 +70,11 @@ fun Application.module() {
 fun Route.login() {
     post("/login") {
         val user = call.receive<User>()
-        //todo: 用户登录验证
+        val password = ModConfig.INSTANCE.webApiUserNameAndPassword[user.name]
+            ?: throw InvalidCredentialsException("Invalid credentials")
+        if (user.password != password)
+            throw InvalidCredentialsException("Invalid credentials")
+
         call.respond(Auth.sign(user.name))
     }
 }

@@ -20,6 +20,9 @@ open class ModConfig {
     @JvmField
     val commandRedirects = linkedMapOf("tp" to "minecraft:teleport")
 
+    @JvmField
+    val webApiUserNameAndPassword = linkedMapOf("test" to "test")
+
     /**
      * HTTP Server 和 HTTP Client 的 IP 地址是否必须都是 localhost
      */
