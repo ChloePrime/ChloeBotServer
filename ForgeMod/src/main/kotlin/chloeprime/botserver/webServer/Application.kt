@@ -7,6 +7,7 @@ import io.ktor.content.*
 import io.ktor.features.*
 import io.ktor.gson.*
 import io.ktor.http.*
+import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
 
@@ -42,6 +43,7 @@ fun Application.module() {
         }
     }
 
+    //安装JWT模块
     install(Authentication) {
         jwt {
             verifier(verifier)
@@ -50,14 +52,28 @@ fun Application.module() {
             }
         }
     }
-    routing{
+    routing {
         login()
+        api()
     }
 }
 
 
-fun Route.login(){
-    get("/login") {
-        call.respond("登录成功")
+fun Route.login() {
+    post("/login") {
+        val user = call.receive<User>()
+        //todo: 用户登录验证
+        call.respond(Auth.sign(user.name))
+    }
+}
+
+fun Route.api() {
+    authenticate {
+        route("/api") {
+            get {
+                val principal = call.principal<UserIdPrincipal>() ?: error("No principal")
+                call.respond("用户: ${principal.name} 欢迎来到MCGWebAPI！")
+            }
+        }
     }
 }
