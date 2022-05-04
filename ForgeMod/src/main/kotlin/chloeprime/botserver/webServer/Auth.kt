@@ -1,15 +1,16 @@
 package chloeprime.botserver.webServer
 
+import chloeprime.botserver.common.*
 import com.auth0.jwt.JWT
 import com.auth0.jwt.JWTVerifier
 import com.auth0.jwt.algorithms.Algorithm
 import java.util.*
 
 object Auth {
-    private const val SECRET_KEY = "secret" // todo: 从配置文件内读取
+    private val SECRET_KEY = ModConfig.INSTANCE.secretKey
     private val algorithm = Algorithm.HMAC512(SECRET_KEY)
     private const val issuer = "ktor.io"
-    private const val validityInMs = 3600*1000 * 10 // 10 hours
+    private const val validityInMs = 3600 * 1000 * 10 // 10 hours
 
     fun makeJwtVerifier(): JWTVerifier = JWT
         .require(algorithm)
