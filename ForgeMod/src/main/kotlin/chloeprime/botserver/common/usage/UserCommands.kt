@@ -15,25 +15,19 @@ import kotlin.streams.*
 
 
 private val GSON = GsonBuilder().create()
-
-private data class Tps(
-    val mspt: Double,
-    val tps: Double
-)
-
 internal suspend fun showTps(request: RequestPO, call: ApplicationCall) {
     val server = mcServer
     val task = server.callFromMainThread {
         val mspt = server.tickTimeArray.average() * 1e-6
-        Tps(
+        ResponsePO.Tps(
             mspt,
             min(1000.0 / mspt, 20.0)
         )
     }
-    var tps: Tps? = null
-    Futures.addCallback(task, object : FutureCallback<Tps?> {
-        override fun onSuccess(result: Tps?) {
-            tps = result
+    var po: ResponsePO.Tps? = null
+    Futures.addCallback(task, object : FutureCallback<ResponsePO.Tps?> {
+        override fun onSuccess(result: ResponsePO.Tps?) {
+            po = result
         }
 
         override fun onFailure(t: Throwable) {
@@ -41,12 +35,11 @@ internal suspend fun showTps(request: RequestPO, call: ApplicationCall) {
         }
     }, MoreExecutors.directExecutor())
 
-    while (tps == null) {
+    while (po == null) {
         delay(1)
         continue
     }
 
-    val po = ResponsePO.Tps(tps!!.tps, tps!!.mspt)
     call.respond(GSON.toJson(po))
 }
 
