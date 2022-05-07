@@ -47,15 +47,9 @@ class BotServerMod {
     fun init(event: FMLInitializationEvent) {
 
         val port = ModConfig.INSTANCE.port
-
-        httpServer = HttpServer.create(InetSocketAddress(port), 0).apply {
-            createContext("/", BotHttpHandler())
-            start()
-        }
+        embeddedServer(Netty, port = port, module = Application::module).start()
 
         logger.info("Chloe Bot server is listening to port $port")
-
-        embeddedServer(Netty, port = 8080, module = Application::module).start()
     }
 
     @Mod.EventHandler

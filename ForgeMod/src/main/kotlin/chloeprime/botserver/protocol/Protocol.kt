@@ -6,23 +6,8 @@
 
 package chloeprime.botserver.protocol
 
+import chloeprime.botserver.webServer.*
 import java.util.*
-
-/**
- * @param user 发送者的QQ号
- * @param group 发送者所在群的QQ群号，-1表示当前上下文不在群聊中。
- * @param operation 请求的操作类型，见 [RequestOperations]
- * @param msg 消息内容
- * @param msgContext 一些复杂消息（例如 .pat）承载的内容
- */
-class RequestPO(
-    @JvmField var user: Long,
-    @JvmField var group: Long = -1L,
-    @JvmField var operation: String,
-    @JvmField var msg: String,
-    @JvmField var msgContext: String? = null
-)
-
 object RequestContext {
     open class NamedBase {
         @JvmField var userName = ""

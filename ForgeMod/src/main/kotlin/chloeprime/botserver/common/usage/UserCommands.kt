@@ -1,33 +1,56 @@
 package chloeprime.botserver.common.usage
 
-import chloeprime.botserver.common.CommonProxy
-import chloeprime.botserver.common.util.ASYNC_EXECUTOR
-import chloeprime.botserver.common.util.mcServer
-import chloeprime.botserver.common.util.ok
-import chloeprime.botserver.protocol.RequestContext
-import chloeprime.botserver.protocol.RequestPO
-import chloeprime.botserver.protocol.ResponsePO
-import com.google.gson.GsonBuilder
-import com.sun.net.httpserver.HttpExchange
-import kotlin.math.min
-import kotlin.streams.toList
+import chloeprime.botserver.common.*
+import chloeprime.botserver.common.util.*
+import chloeprime.botserver.protocol.*
+import chloeprime.botserver.webServer.*
+import com.google.common.util.concurrent.*
+import com.google.gson.*
+import io.ktor.application.*
+import io.ktor.http.*
+import io.ktor.response.*
+import kotlinx.coroutines.*
+import kotlin.math.*
+import kotlin.streams.*
+
 
 private val GSON = GsonBuilder().create()
 
-internal fun showTps(request: RequestPO, httpExchange: HttpExchange) {
-    val server = mcServer
-    server.addScheduledTask {
-        val mspt = server.tickTimeArray.average() * 1e-6
-        val tps = min(1000.0 / mspt, 20.0)
+private data class Tps(
+    val mspt: Double,
+    val tps: Double
+)
 
-        ASYNC_EXECUTOR.execute {
-            val po = ResponsePO.Tps(tps, mspt)
-            httpExchange.ok(GSON.toJson(po))
-        }
+internal suspend fun showTps(request: RequestPO, call: ApplicationCall) {
+    val server = mcServer
+    val task = server.callFromMainThread {
+        val mspt = server.tickTimeArray.average() * 1e-6
+        Tps(
+            mspt,
+            min(1000.0 / mspt, 20.0)
+        )
     }
+    var tps: Tps? = null
+    Futures.addCallback(task, object : FutureCallback<Tps?> {
+        override fun onSuccess(result: Tps?) {
+            tps = result
+        }
+
+        override fun onFailure(t: Throwable) {
+            t.printStackTrace()
+        }
+    }, MoreExecutors.directExecutor())
+
+    while (tps == null) {
+        delay(1)
+        continue
+    }
+
+    val po = ResponsePO.Tps(tps!!.tps, tps!!.mspt)
+    call.respond(GSON.toJson(po))
 }
 
-internal fun listPlayers(request: RequestPO, httpExchange: HttpExchange) {
+internal suspend fun listPlayers(request: RequestPO, call: ApplicationCall) {
     val server = mcServer
     val isAdminQuery = request.msgContext
         ?.split(' ')
@@ -55,13 +78,13 @@ internal fun listPlayers(request: RequestPO, httpExchange: HttpExchange) {
             .toList()
 
         val response = ResponsePO.PlayerList(maxPlayer, players)
-        ASYNC_EXECUTOR.execute {
-            httpExchange.ok(GSON.toJson(response))
+        CoroutineScope(Dispatchers.IO).launch {
+            call.respond(GSON.toJson(response))
         }
     }
 }
 
-internal fun pat(request: RequestPO, httpExchange: HttpExchange) {
+internal suspend fun pat(request: RequestPO, call: ApplicationCall) {
     val server = mcServer
     val ctx = GSON.fromJson(request.msgContext, RequestContext.Pat::class.java)
     server.addScheduledTask {
@@ -75,8 +98,8 @@ internal fun pat(request: RequestPO, httpExchange: HttpExchange) {
             pat0(player, request, ctx)
         }
 
-        ASYNC_EXECUTOR.execute {
-            httpExchange.ok(GSON.toJson(response))
+        CoroutineScope(Dispatchers.IO).launch {
+            call.respond(GSON.toJson(response))
         }
     }
 }

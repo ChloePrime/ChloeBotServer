@@ -16,7 +16,7 @@ import org.apache.http.auth.*
 private val verifier = Auth.makeJwtVerifier()
 
 fun Application.module() {
-    install(DataConversion)
+//    install(DataConversion)
     install(ContentNegotiation) {
         gson {
         }
@@ -85,6 +85,12 @@ fun Route.api() {
             get {
                 val principal = call.principal<UserIdPrincipal>() ?: error("No principal")
                 call.respond("用户: ${principal.name} 欢迎来到MCGWebAPI！")
+            }
+            post {
+                val principal = call.principal<UserIdPrincipal>() ?: error("No principal")
+                val receive = call.receive<RequestPO>()
+
+                RequestDispatcher.dispatchRequest(receive, call)
             }
         }
     }

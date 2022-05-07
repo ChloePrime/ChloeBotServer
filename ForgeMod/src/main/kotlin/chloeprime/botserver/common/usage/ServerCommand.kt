@@ -1,25 +1,23 @@
 package chloeprime.botserver.common.usage
 
-import chloeprime.botserver.BotServerMod
+import chloeprime.botserver.*
 import chloeprime.botserver.common.*
-import chloeprime.botserver.common.redirectCommand
-import chloeprime.botserver.common.util.ASYNC_EXECUTOR
-import chloeprime.botserver.common.util.mcServer
-import chloeprime.botserver.common.util.ok
-import chloeprime.botserver.protocol.RequestPO
-import com.sun.net.httpserver.HttpExchange
-import java.net.HttpURLConnection
-import kotlin.math.max
+import chloeprime.botserver.common.util.*
+import chloeprime.botserver.webServer.*
+import io.ktor.application.*
+import io.ktor.http.*
+import io.ktor.response.*
+import kotlinx.coroutines.*
+import kotlin.math.*
 
-internal fun serverCommand(request: RequestPO, httpExchange: HttpExchange) {
+internal suspend fun serverCommand(request: RequestPO, call: ApplicationCall) {
     // 命令必须以斜杠开头
     if (!isAuthorized(request)) {
-        httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_FORBIDDEN, 0L)
-        httpExchange.close()
+        call.respond(HttpStatusCode.Forbidden, 0L)
         return
     }
 
-    handle0(httpExchange, request)
+    handle0(call, request)
 }
 
 /**
@@ -30,7 +28,7 @@ private fun isAuthorized(request: RequestPO): Boolean {
     return true
 }
 
-private fun handle0(httpExchange: HttpExchange, request: RequestPO) {
+private fun handle0(call: ApplicationCall, request: RequestPO) {
     // 获得真正执行的命令
     // 方便把一些原版命令重定向到插件命令上
     val command = redirectCommand(request.msg)
@@ -46,18 +44,15 @@ private fun handle0(httpExchange: HttpExchange, request: RequestPO) {
             sender.sendMessage("命令执行过程中遇到了未知的错误: $ex")
         }
 
-        ASYNC_EXECUTOR.execute {
+        CoroutineScope(Dispatchers.IO).launch {
             val delayTime = ModConfig.INSTANCE.commandResponseWaitTime -
                     // 执行命令本身消耗的时间
                     max(0, System.currentTimeMillis() - startTime)
-
             if (delayTime > 0) {
-                Thread.sleep(delayTime)
+                delay(delayTime)
             }
-
             // 发送命令执行结果
-            httpExchange.ok(sender.getMessage())
-            httpExchange.close()
+            call.respond(sender.getMessage())
         }
     }
 }

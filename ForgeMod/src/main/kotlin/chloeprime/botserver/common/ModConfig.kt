@@ -26,12 +26,6 @@ open class ModConfig {
     @JvmField
     val secretKey = "ChloePrPr"
 
-    /**
-     * HTTP Server 和 HTTP Client 的 IP 地址是否必须都是 localhost
-     */
-    @JvmField
-    val forceLocalHost = true
-
     @JvmField
     val commandResponseWaitTime = 1000L
 
