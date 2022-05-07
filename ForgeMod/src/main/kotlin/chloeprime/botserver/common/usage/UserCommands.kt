@@ -57,7 +57,7 @@ internal suspend fun listPlayers(request: RequestPO, call: ApplicationCall) {
         ?.contains("-admin")
         ?: false
 
-    server.addScheduledTask {
+    val task = server.callFromMainThread {
         val maxPlayer = server.maxPlayers
         val players = server.playerList.players.stream()
             .filter {
@@ -76,12 +76,29 @@ internal suspend fun listPlayers(request: RequestPO, call: ApplicationCall) {
                 )
             }
             .toList()
-
-        val response = ResponsePO.PlayerList(maxPlayer, players)
-        CoroutineScope(Dispatchers.IO).launch {
-            call.respond(GSON.toJson(response))
-        }
+        ResponsePO.PlayerList(
+            maxPlayer,
+            players
+        )
     }
+
+    var response: ResponsePO.PlayerList? = null
+    Futures.addCallback(task, object : FutureCallback<ResponsePO.PlayerList?> {
+        override fun onSuccess(result: ResponsePO.PlayerList?) {
+            response = result
+        }
+
+        override fun onFailure(t: Throwable) {
+            t.printStackTrace()
+        }
+    }, MoreExecutors.directExecutor())
+
+    while (response == null) {
+        delay(1)
+        continue
+    }
+
+    call.respond(GSON.toJson(response))
 }
 
 internal suspend fun pat(request: RequestPO, call: ApplicationCall) {
