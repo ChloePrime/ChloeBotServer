@@ -96,7 +96,7 @@ internal suspend fun listPlayers(request: RequestPO, call: ApplicationCall) {
 internal suspend fun pat(request: RequestPO, call: ApplicationCall) {
     val server = mcServer
     val ctx = GSON.fromJson(request.msgContext, RequestContext.Pat::class.java)
-    server.addScheduledTask {
+    val task = server.callFromMainThread {
         val player = server.playerList.getPlayerByUsername(ctx.playerName)
 
         val response = ResponsePO.Pat(0)
@@ -106,9 +106,25 @@ internal suspend fun pat(request: RequestPO, call: ApplicationCall) {
             // ==> .pat 的核心逻辑 <==
             pat0(player, request, ctx)
         }
-
-        CoroutineScope(Dispatchers.IO).launch {
-            call.respond(GSON.toJson(response))
-        }
+        response
     }
+
+    var response: ResponsePO.Pat? = null
+    Futures.addCallback(task, object : FutureCallback<ResponsePO.Pat?> {
+        override fun onSuccess(result: ResponsePO.Pat?) {
+            response = result
+        }
+
+        override fun onFailure(t: Throwable) {
+            t.printStackTrace()
+        }
+    }, MoreExecutors.directExecutor())
+
+    while (response == null) {
+        delay(1)
+        continue
+    }
+
+    call.respond(GSON.toJson(response))
+
 }
