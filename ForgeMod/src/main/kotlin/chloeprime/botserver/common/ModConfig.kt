@@ -26,9 +26,6 @@ open class ModConfig {
     @JvmField
     val secretKey = "ChloePrPr"
 
-    @JvmField
-    val commandResponseWaitTime = 1000L
-
     internal companion object {
         @Volatile
         lateinit var INSTANCE: ModConfig
