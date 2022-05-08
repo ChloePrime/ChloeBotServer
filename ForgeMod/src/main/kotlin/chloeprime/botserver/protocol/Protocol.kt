@@ -122,6 +122,8 @@ object ResponsePO {
         companion object {
             const val OK = 0
             const val ERR_PLAYER_NOT_ONLINE = 1
+            const val MISSING_PARAMETERS = 2
+            const val INTERNAL_ERROR = 3
         }
     }
 }

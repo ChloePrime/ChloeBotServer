@@ -31,6 +31,7 @@ internal suspend fun showTps(request: RequestPO, call: ApplicationCall) {
 
         override fun onFailure(t: Throwable) {
             t.printStackTrace()
+            throw t
         }
     }, MoreExecutors.directExecutor())
 
@@ -116,15 +117,19 @@ internal suspend fun pat(request: RequestPO, call: ApplicationCall) {
         }
 
         override fun onFailure(t: Throwable) {
-            t.printStackTrace()
+            response = ResponsePO.Pat(
+                if (t is NullPointerException)
+                    ResponsePO.Pat.MISSING_PARAMETERS //代表缺少参数
+                else
+                    ResponsePO.Pat.INTERNAL_ERROR //代表内部错误
+            )
         }
     }, MoreExecutors.directExecutor())
 
-    while (response == null) {
+    while (!task.isDone) {
         delay(1)
         continue
     }
 
     call.respond(GSON.toJson(response))
-
 }
