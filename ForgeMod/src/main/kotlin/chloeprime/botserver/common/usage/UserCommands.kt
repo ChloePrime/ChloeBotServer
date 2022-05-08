@@ -19,8 +19,8 @@ internal suspend fun showTps(request: RequestPO, call: ApplicationCall) {
     val task = server.callFromMainThread {
         val mspt = server.tickTimeArray.average() * 1e-6
         ResponsePO.Tps(
-            mspt,
-            min(1000.0 / mspt, 20.0)
+            min(1000.0 / mspt, 20.0),
+            mspt
         )
     }
     var po: ResponsePO.Tps? = null
@@ -126,7 +126,7 @@ internal suspend fun pat(request: RequestPO, call: ApplicationCall) {
         }
     }, MoreExecutors.directExecutor())
 
-    while (!task.isDone) {
+    while (response == null) {
         delay(1)
         continue
     }

@@ -4,11 +4,11 @@ import chloeprime.botserver.*
 import chloeprime.botserver.common.*
 import chloeprime.botserver.common.util.*
 import chloeprime.botserver.webServer.*
+import com.google.common.util.concurrent.*
 import io.ktor.application.*
 import io.ktor.http.*
 import io.ktor.response.*
 import kotlinx.coroutines.*
-import kotlin.math.*
 
 internal suspend fun serverCommand(request: RequestPO, call: ApplicationCall) {
     // 命令必须以斜杠开头
@@ -28,14 +28,13 @@ private fun isAuthorized(request: RequestPO): Boolean {
     return true
 }
 
-private fun handle0(call: ApplicationCall, request: RequestPO) {
+private suspend fun handle0(call: ApplicationCall, request: RequestPO) {
     // 获得真正执行的命令
     // 方便把一些原版命令重定向到插件命令上
     val command = redirectCommand(request.msg)
     // 以下的代码需要切换到主线程执行
-    mcServer.addScheduledTask {
+    val task = mcServer.callFromMainThread {
         val sender = BotCommandSender(mcServer)
-        val startTime = System.currentTimeMillis()
 
         try {
             BotServerMod.logger.info("QQ用户 ${request.user} 执行命令 $command")
@@ -43,16 +42,25 @@ private fun handle0(call: ApplicationCall, request: RequestPO) {
         } catch (ex: Exception) {
             sender.sendMessage("命令执行过程中遇到了未知的错误: $ex")
         }
-
-        CoroutineScope(Dispatchers.IO).launch {
-            val delayTime = ModConfig.INSTANCE.commandResponseWaitTime -
-                    // 执行命令本身消耗的时间
-                    max(0, System.currentTimeMillis() - startTime)
-            if (delayTime > 0) {
-                delay(delayTime)
-            }
-            // 发送命令执行结果
-            call.respond(sender.getMessage())
-        }
+        sender
     }
+
+    var response: BotCommandSender? = null
+    Futures.addCallback(task, object : FutureCallback<BotCommandSender?> {
+        override fun onSuccess(result: BotCommandSender?) {
+            response = result
+        }
+
+        override fun onFailure(t: Throwable) {
+            BotCommandSender(mcServer).sendMessage("命令缺少参数")
+        }
+    }, MoreExecutors.directExecutor())
+
+    while (response == null) {
+        delay(1)
+        continue
+    }
+
+    // 发送命令执行结果
+    call.respond(response!!.getMessage())
 }
